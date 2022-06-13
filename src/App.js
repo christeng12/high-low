@@ -1,40 +1,32 @@
 import React, {Component} from 'react';
 
-class Card extends Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      value: 1,
-    };
-  }
-
-  render() {
-    return (
-      <h1 className="card">{this.state.value}</h1>
-    );
-  }
+function Card(props){
+  return(
+    <div className="Card">{props.value}</div>
+  );
 }
 
-class Keep extends Component {
-  render() {
+class Table extends Component {
+  drawCard() {
     return(
-      <button className="keep">Keep</button>
+      <Card 
+        value={Math.floor(Math.random()*13+1)}
+      />
     );
   }
-}
 
-class High extends Component {
-  render() {
+  render () {
     return(
-      <button className="high">High</button>
-    );
-  }
-}
-
-class Low extends Component {
-  render() {
-    return(
-      <button className="low">Low</button>
+      <div>
+        <div className="card_region">
+          {this.drawCard()}
+        </div>
+        <div className="controls">
+          <button>high</button>
+          <button>low</button>
+          <button>keep</button>
+        </div>
+      </div>
     );
   }
 }
@@ -43,10 +35,9 @@ class Game extends Component {
   render() {
     return (
       <div className="Game">
-        <Card />
-        <High />
-        <Low />
-        <Keep />
+        <div className="Game-Table">
+          <Table />
+        </div>
       </div>
     );
   }
