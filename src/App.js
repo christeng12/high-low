@@ -7,22 +7,30 @@ function Card(props){
 }
 
 class Table extends Component {
-  drawCard() {
-    return(
-      <Card 
-        value={Math.floor(Math.random()*13+1)}
-      />
-    );
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentCard: 0
+    }
   }
 
-  render () {
+  drawCard = () => {
+    const randomCard = Math.floor(Math.random()*13+1);
+    this.setState({
+      currentCard: randomCard
+    });
+  }
+
+  render() {
     return(
       <div>
         <div className="card_region">
-          {this.drawCard()}
+          <Card 
+            value={this.state.currentCard}
+          />
         </div>
         <div className="controls">
-          <button>high</button>
+          <button className="high" onClick={this.drawCard}>high</button>
           <button>low</button>
           <button>keep</button>
         </div>
