@@ -11,6 +11,7 @@ class Table extends Component {
     super(props);
     this.state = {
       currentCard: 0,
+      pile: 0,
       score: 0
     }
   }
@@ -29,9 +30,9 @@ class Table extends Component {
     const current = this.state.currentCard;
     const next = this.drawCard();
     if (next>=current){
-      this.setState({score: this.state.score+1});
+      this.setState({pile: this.state.pile+1});
     } else {
-      this.setState({score: 0});
+      this.setState({pile: 0});
     }
   }
 
@@ -40,10 +41,17 @@ class Table extends Component {
     const current = this.state.currentCard;
     const next = this.drawCard();
     if (next<=current){
-      this.setState({score: this.state.score+1});
+      this.setState({pile: this.state.pile+1});
     } else {
-      this.setState({score: 0});
+      this.setState({pile: 0});
     }
+  }
+
+  keep = () => {
+    console.log("keep");
+    this.drawCard();
+    this.setState({score: this.state.score+this.state.pile,
+                   pile: 0 });
   }
 
   render() {
@@ -54,13 +62,16 @@ class Table extends Component {
             value={this.state.currentCard}
           />
         </div>
+        <div className="pile">
+          Pile: {this.state.pile}
+        </div>
         <div className="score">
-          {this.state.score}
+          Score: {this.state.score}
         </div>
         <div className="controls">
           <button className="high" onClick={this.high}>high</button>
           <button className="low" onClick={this.low}>low</button>
-          <button>keep</button>
+          <button className="keep" onClick={this.keep}>keep</button>
         </div>
       </div>
     );
