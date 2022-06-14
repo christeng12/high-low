@@ -42,10 +42,14 @@ class Table extends Component {
     console.log("high");
     const current = this.state.currentCard;
     const next = this.drawCard();
+    const currentPlayer = this.getPlayer();
     if (next>=current){
-      this.setState({pile: this.state.pile+1});
+      currentPlayer.pile+=1;
+      this.setState({currentPlayer});
     } else {
-      this.setState({pile: 0});
+      currentPlayer.pile = 0;
+      this.setState({currentPlayer});
+      this.setState({nextFlag: !this.state.nextFlag});
     }
   }
 
@@ -53,10 +57,14 @@ class Table extends Component {
     console.log("low");
     const current = this.state.currentCard;
     const next = this.drawCard();
+    const currentPlayer = this.getPlayer();
     if (next<=current){
-      this.setState({pile: this.state.pile+1});
+      currentPlayer.pile+=1;
+      this.setState({currentPlayer});
     } else {
-      this.setState({pile: 0});
+      currentPlayer.pile = 0;
+      this.setState({currentPlayer});
+      this.setState({nextFlag: !this.state.nextFlag});
     }
   }
 
@@ -64,7 +72,9 @@ class Table extends Component {
     console.log("keep");
     this.drawCard();
     const currentPlayer = this.getPlayer(); 
-    this.setState({score: currentPlayer.score+currentPlayer.pile});
+    currentPlayer.score = currentPlayer.score+currentPlayer.pile
+    currentPlayer.pile = 0;
+    this.setState({currentPlayer});
     this.setState({nextFlag: !this.state.nextFlag});
   }
 
