@@ -12,6 +12,7 @@ class Table extends Component {
     this.state = {
       currentCard: 0,
       nextFlag: true,
+      cardList: [],
       player1:{
         name: "Player1",
         pile: 0,
@@ -23,6 +24,9 @@ class Table extends Component {
         score: 0,
       }
     }
+    for(var i=1; i<=52;i++){
+      this.state.cardList.push(i);
+    }
   }
 
   getPlayer = () => {
@@ -31,9 +35,13 @@ class Table extends Component {
 
   drawCard = () => {
     console.log("draw");
-    const randomCard = Math.floor(Math.random()*13+1);
+    const currentCardList = this.state.cardList;
+    const randomIndex = Math.floor(Math.random()*currentCardList.length);
+    const randomCard = currentCardList[randomIndex];
+    currentCardList.splice(randomIndex,1);
     this.setState({
-      currentCard: randomCard
+      currentCard: randomCard,
+      cardList: currentCardList,
     });
     return randomCard;
   }
