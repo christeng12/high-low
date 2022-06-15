@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 function Card(props){
   return(
-    <div className="Card">{props.value}</div>
+    <div className={"Card " +props.value+" "+props.suit}>{props.value} of {props.suit}</div>
   );
 }
 
@@ -33,6 +33,29 @@ class Table extends Component {
     return this.state.nextFlag ? this.state.player1 : this.state.player2;
   }
 
+  getSuit = (card_value) => {
+    const key = Math.ceil(card_value/13);
+    let suit = "";
+    switch (key) {
+      case 1:
+        suit = "hearts";
+        break;
+      case 2:
+        suit = "spades";
+        break;
+      case 3:
+        suit = "diamonds";
+        break;
+      case 4:
+        suit = "clubs";
+        break;
+      default:
+        suit = "";
+    }
+    console.log(suit);
+    return suit;
+  }
+
   drawCard = () => {
     console.log("draw");
     const currentCardList = this.state.cardList;
@@ -48,8 +71,8 @@ class Table extends Component {
 
   high = () => {
     console.log("high");
-    const current = this.state.currentCard;
-    const next = this.drawCard();
+    const current = this.state.currentCard%13;
+    const next = this.drawCard()%13;
     const currentPlayer = this.getPlayer();
     if (next>=current){
       currentPlayer.pile+=1;
@@ -63,8 +86,8 @@ class Table extends Component {
 
   low = () => {
     console.log("low");
-    const current = this.state.currentCard;
-    const next = this.drawCard();
+    const current = this.state.currentCard%13;
+    const next = this.drawCard()%13;
     const currentPlayer = this.getPlayer();
     if (next<=current){
       currentPlayer.pile+=1;
@@ -89,11 +112,10 @@ class Table extends Component {
   render() {
     return(
       <div>
-        <div className="card_region">
-          <Card 
-            value={this.state.currentCard}
-          />
-        </div>
+        <Card 
+          value={this.state.currentCard%13+1}
+          suit={this.getSuit(this.state.currentCard)}
+        />
         <div className="player">
           {this.getPlayer().name}
         </div>
