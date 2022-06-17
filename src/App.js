@@ -13,6 +13,7 @@ class Table extends Component {
       currentCard: 0,
       nextFlag: true,
       cardList: [],
+      winner: "",
       player1:{
         name: "Player1",
         pile: 0,
@@ -23,7 +24,7 @@ class Table extends Component {
         pile: 0,
         score: 0,
       }
-    }
+    } // consider making map
     for(var i=1; i<=52;i++){
       this.state.cardList.push(i);
     }
@@ -56,17 +57,38 @@ class Table extends Component {
     return suit;
   }
 
+  determineWinner = () => {
+    const p1Score = this.state.player1.score;
+    const p2Score = this.state.player2.score;
+    let winString = "";
+    if(p1Score>p2Score){
+      winString = this.state.player1.name+" Won!";
+    } else if(p2Score>p1Score){
+      winString = this.state.player2.name+" Won!";
+    } else {
+      winString = "Its a tie!";
+    }
+    this.setState({
+      winner: winString,
+    });
+  }
+
   drawCard = () => {
     console.log("draw");
     const currentCardList = this.state.cardList;
-    const randomIndex = Math.floor(Math.random()*currentCardList.length);
-    const randomCard = currentCardList[randomIndex];
-    currentCardList.splice(randomIndex,1);
-    this.setState({
-      currentCard: randomCard,
-      cardList: currentCardList,
-    });
-    return randomCard;
+    if(currentCardList.length>0){
+      const randomIndex = Math.floor(Math.random()*currentCardList.length);
+      const randomCard = currentCardList[randomIndex];
+      currentCardList.splice(randomIndex,1);
+      this.setState({
+        currentCard: randomCard,
+        cardList: currentCardList,
+      });
+      return randomCard;
+    } else {
+      this.determineWinner();
+      return null;
+    }
   }
 
   high = () => {
@@ -129,6 +151,8 @@ class Table extends Component {
           <button className="high" onClick={this.high}>high</button>
           <button className="low" onClick={this.low}>low</button>
           <button className="keep" onClick={this.keep}>keep</button>
+        </div>
+        <div className="win_message">{this.state.winner}
         </div>
       </div>
     );
